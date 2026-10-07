@@ -19,6 +19,7 @@ import type {
 
 const registerPatient = async (payload: IRegisterPatientPayload) => {
 	const { name, password } = payload;
+
 	const email = payload.email.trim().toLowerCase();
 
 	const isUserExists = await prisma.user.findUnique({

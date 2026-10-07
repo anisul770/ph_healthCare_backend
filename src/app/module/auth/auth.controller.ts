@@ -6,7 +6,18 @@ import type { IRequestUser } from "./auth.interface";
 import { AuthService } from "./auth.service";
 
 const registerPatient = catchAsync(async (req: Request, res: Response) => {
+	// const payload = PatientValidation.PatientRegistrationZodSchema.safeParse(req.body);
+
+	// if (!payload.success) {
+	// 	// let errorMessage = "";
+	// 	// payload.error.issues.forEach((issue) => {
+	// 	// 	errorMessage = errorMessage + "\n" + issue.message;
+	// 	// });
+	// 	throw new Error(payload.error.issues[0].message);
+	// }
+
 	const payload = req.body;
+
 	const result = await AuthService.registerPatient(payload);
 
 	const { accessToken, refreshToken, user, patient } = result;
