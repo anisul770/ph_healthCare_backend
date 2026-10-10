@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Welcome to <%= brandName %></title>
+  <style>
+    body { margin: 0; padding: 0; background-color: #f1f5f9; }
+    table { border-collapse: collapse; }
+    @media only screen and (max-width: 620px) {
+      .container { width: 100% !important; }
+      .px { padding-left: 24px !important; padding-right: 24px !important; }
+      .h1 { font-size: 24px !important; line-height: 32px !important; }
+    }
+  </style>
+</head>
+<body style="margin:0; padding:0; background-color:#f1f5f9;">
+
+  <!-- Preheader (hidden preview text) -->
+  <div style="display:none; max-height:0; overflow:hidden; opacity:0; mso-hide:all; font-size:1px; line-height:1px; color:#f1f5f9;">
+    Your <%= brandName %> patient account is ready.
+  </div>
+
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f1f5f9;">
+    <tr>
+      <td align="center" style="padding:32px 12px;">
+
+        <table role="presentation" class="container" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px; max-width:600px; background-color:#ffffff; border-radius:12px; overflow:hidden;">
+
+          <!-- Header -->
+          <tr>
+            <td class="px" align="left" style="background-color:#0f766e; padding:28px 40px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="width:40px; height:40px; background-color:#ffffff; border-radius:10px; text-align:center; vertical-align:middle; font-family:Arial, Helvetica, sans-serif; font-size:24px; font-weight:bold; color:#0f766e; line-height:40px;">+</td>
+                  <td style="padding-left:12px; font-family:Arial, Helvetica, sans-serif; font-size:20px; font-weight:bold; color:#ffffff; letter-spacing:0.2px;"><%= brandName %></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Greeting -->
+          <tr>
+            <td class="px" style="padding:40px 40px 8px 40px; font-family:Arial, Helvetica, sans-serif;">
+              <h1 class="h1" style="margin:0 0 16px 0; font-size:28px; line-height:36px; color:#0f172a; font-weight:bold;">
+                Welcome, <%= name %>!
+              </h1>
+              <p style="margin:0 0 16px 0; font-size:16px; line-height:26px; color:#334155;">
+                Thank you for registering with <%= brandName %>. Your patient account has been created successfully, and we're glad to have you with us.
+              </p>
+              <p style="margin:0; font-size:16px; line-height:26px; color:#334155;">
+                You can now sign in and start managing your care in one place.
+              </p>
+            </td>
+          </tr>
+
+          <!-- What you can do -->
+          <tr>
+            <td class="px" style="padding:32px 40px 8px 40px; font-family:Arial, Helvetica, sans-serif;">
+              <h2 style="margin:0 0 16px 0; font-size:18px; line-height:26px; color:#0f172a; font-weight:bold;">
+                What you can do with your account
+              </h2>
+
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td valign="top" style="width:36px; padding:0 0 16px 0;">
+                    <div style="width:28px; height:28px; border-radius:14px; background-color:#ccfbf1; color:#0f766e; font-size:14px; font-weight:bold; line-height:28px; text-align:center;">1</div>
+                  </td>
+                  <td valign="top" style="padding:0 0 16px 0; font-size:15px; line-height:24px; color:#334155;">
+                    <strong style="color:#0f172a;">Book appointments</strong><br />
+                    Find a doctor by specialty and schedule a visit at a time that suits you.
+                  </td>
+                </tr>
+                <tr>
+                  <td valign="top" style="width:36px; padding:0 0 16px 0;">
+                    <div style="width:28px; height:28px; border-radius:14px; background-color:#ccfbf1; color:#0f766e; font-size:14px; font-weight:bold; line-height:28px; text-align:center;">2</div>
+                  </td>
+                  <td valign="top" style="padding:0 0 16px 0; font-size:15px; line-height:24px; color:#334155;">
+                    <strong style="color:#0f172a;">Consult your doctor</strong><br />
+                    Attend your appointments and follow up with your care team with ease.
+                  </td>
+                </tr>
+                <tr>
+                  <td valign="top" style="width:36px; padding:0;">
+                    <div style="width:28px; height:28px; border-radius:14px; background-color:#ccfbf1; color:#0f766e; font-size:14px; font-weight:bold; line-height:28px; text-align:center;">3</div>
+                  </td>
+                  <td valign="top" style="padding:0; font-size:15px; line-height:24px; color:#334155;">
+                    <strong style="color:#0f172a;">Keep your records together</strong><br />
+                    View prescriptions, reports and appointment history from your dashboard.
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Sign-off -->
+          <tr>
+            <td class="px" style="padding:28px 40px 40px 40px; font-family:Arial, Helvetica, sans-serif;">
+              <p style="margin:0; font-size:15px; line-height:24px; color:#334155;">
+                Wishing you good health,<br />
+                <strong style="color:#0f172a;">The <%= brandName %> Team</strong>
+              </p>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td class="px" align="center" style="background-color:#f8fafc; border-top:1px solid #e2e8f0; padding:24px 40px; font-family:Arial, Helvetica, sans-serif;">
+              <p style="margin:0 0 8px 0; font-size:12px; line-height:18px; color:#64748b;">
+                You received this email because a patient account was created at <%= brandName %> with this email address. If this wasn't you, you can safely ignore this email.
+              </p>
+              <p style="margin:0; font-size:12px; line-height:18px; color:#94a3b8;">
+                &copy; <%= new Date().getFullYear() %> <%= brandName %>. All rights reserved.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>

@@ -22,6 +22,11 @@ const PatientRegistrationZodSchema = z.object({
 		.optional(),
 });
 
+const PatientEmailVerifyZodSchema = z.object({
+	email: z.email("Not email!!!"),
+	otp : z.string().length(6),
+});
+
 const LoginZodSchema = z.object({
     email : z.email(),
     password : z.string().min(5)
@@ -47,6 +52,7 @@ const ResetPasswordZodSchema = z.object({
 
 export const UserValidation = {
     PatientRegistrationZodSchema,
+	PatientEmailVerifyZodSchema,
     LoginZodSchema,
 	ForgotPasswordZodSchema,
 	ResetPasswordZodSchema
