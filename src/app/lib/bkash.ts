@@ -76,7 +76,7 @@ export const getBkashIdToken = async() => {
         });
 
         //bkash refresh token set
-        await redisClient.set(refreshTokenKey,result.refreshToken,{
+        await redisClient.set(refreshTokenKey,result.refresh_token,{
             expiration:{
                 type: "EX",
                 value : 60*60*24*28 // 28 days
