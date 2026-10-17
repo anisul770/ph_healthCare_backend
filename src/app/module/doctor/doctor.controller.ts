@@ -1,9 +1,11 @@
 import { Request, Response } from "express";
 import httpStatus from "http-status";
 import { catchAsync } from "../../utils/catchAsync";
+import { AppError } from "../../utils/AppError";
 import { sendResponse } from "../../utils/sendResponse";
 import { DoctorServices } from "./doctor.service";
 import { applyAsDoctorValidationSchema } from "./doctor.validation";
+import { RequestUser } from "../../middleware/checkAuth";
 
 const applyAsDoctor = catchAsync(async (req: Request, res: Response) => {
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
@@ -11,13 +13,13 @@ const applyAsDoctor = catchAsync(async (req: Request, res: Response) => {
 	const resume = files?.["resume"] ? files["resume"][0] : null;
 	const additionalFiles = files?.["additionalFiles"] || [];
 
-    const data = JSON.parse(req.body.data)
+    // const data = JSON.parse(req.body.data)
 
     const zodValidationResult = applyAsDoctorValidationSchema.safeParse(JSON.parse(req.body.data));
 
     if(!zodValidationResult.success){
         console.log(zodValidationResult.error);
-        throw new Error(`${zodValidationResult.error.issues[0].path[1].toString()} field ${zodValidationResult.error.issues[0].message}`)
+        throw new AppError(httpStatus.BAD_REQUEST, `${zodValidationResult.error.issues[0].path[1].toString()} field ${zodValidationResult.error.issues[0].message}`)
     }
 
     const payload = zodValidationResult.data
@@ -31,6 +33,45 @@ const applyAsDoctor = catchAsync(async (req: Request, res: Response) => {
 	});
 });
 
+const verifyDoctorEmail = catchAsync(async (req: Request, res: Response) => {
+    const payload = req.body;
+
+	const result = await DoctorServices.verifyDoctorEmail(payload);
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
+		success: true,
+		message: "Doctor Email verify successfully",
+		data: result,
+	});
+});
+
+const approveDoctor = catchAsync(async (req: Request, res: Response) => {
+    const payload = req.body;  
+
+	const result = await DoctorServices.approveDoctor(payload,req.user as RequestUser);
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
+		success: true,
+		message: "Doctor approved successfully",
+		data: result,
+	});
+});
+
+const getAllDoctors = catchAsync(async (req: Request, res: Response) => {
+	const {data, meta} = await DoctorServices.getAllDoctors(req.query);
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
+		success: true,
+		message: "Doctor Retrieved successfully",
+		data: data,
+		meta : meta
+	});
+});
+
+
 export const DoctorController = {
-    applyAsDoctor
+    applyAsDoctor,  
+    verifyDoctorEmail,
+    approveDoctor,
+	getAllDoctors
 }

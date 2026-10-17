@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import httpStatus from "http-status";
 import { catchAsync } from "../../utils/catchAsync";
+import { AppError } from "../../utils/AppError";
 import { sendResponse } from "../../utils/sendResponse";
 import type { IRequestUser } from "./auth.interface";
 import { AuthService } from "./auth.service";
@@ -115,7 +116,7 @@ const getMe = catchAsync(async (req: Request, res: Response) => {
 	const user = req.user as unknown as IRequestUser;
 
 	if (!user) {
-		throw new Error("User information is missing in the request");
+		throw new AppError(httpStatus.UNAUTHORIZED, "User information is missing in the request");
 	}
 
 	const result = await AuthService.getMe(user);
@@ -129,7 +130,7 @@ const getMe = catchAsync(async (req: Request, res: Response) => {
 
 const refreshToken = catchAsync(async (req: Request, res: Response) => {
 	if (!req.cookies.refreshToken) {
-		throw new Error("Refresh token is missing");
+		throw new AppError(httpStatus.UNAUTHORIZED, "Refresh token is missing");
 	}
 	const result = await AuthService.refreshToken(req.cookies.refreshToken);
 	const { accessToken, refreshToken: newRefreshToken } = result;
