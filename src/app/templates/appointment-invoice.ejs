@@ -1,0 +1,192 @@
+<%
+  const emailBrand = typeof brandName === 'string' && brandName.trim() ? brandName.trim() : 'PH Healthcare';
+  const recipientName = typeof patientName === 'string' && patientName.trim() ? patientName.trim() : null;
+  const doctorSpecialization = typeof specialization === 'string' && specialization.trim() ? specialization.trim() : null;
+  const paymentCurrency = typeof currency === 'string' && currency.trim() ? currency.trim() : 'BDT';
+  const paymentTime = typeof paidAt === 'string' && paidAt.trim() ? paidAt.trim() : null;
+  const link = typeof meetingLink === 'string' && meetingLink.trim() ? meetingLink.trim() : null;
+%>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="x-apple-disable-message-reformatting" />
+    <title>Your appointment invoice | <%= emailBrand %></title>
+    <style>
+      @media only screen and (max-width: 600px) {
+        .outer-padding { padding: 24px 12px !important; }
+        .content-padding { padding: 32px 24px !important; }
+        .header-padding { padding: 24px !important; }
+        .email-title { font-size: 26px !important; line-height: 34px !important; }
+        .amount { font-size: 30px !important; }
+      }
+    </style>
+  </head>
+  <body style="margin: 0; padding: 0; width: 100%; background-color: #f1f5f9; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;">
+    <div style="display: none; font-size: 1px; color: #f1f5f9; line-height: 1px; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all;">
+      Payment received. Your appointment with Dr. <%= doctorName %> on <%= appointmentDate %> is confirmed.
+    </div>
+
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f1f5f9" style="width: 100%; border-collapse: collapse; background-color: #f1f5f9; font-family: Arial, Helvetica, sans-serif;">
+      <tr>
+        <td class="outer-padding" align="center" style="padding: 48px 20px;">
+          <!--[if mso]>
+          <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0"><tr><td>
+          <![endif]-->
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="width: 100%; max-width: 600px; border: 1px solid #e2e8f0; border-spacing: 0; border-radius: 16px; background-color: #ffffff;">
+            <tr>
+              <td class="header-padding" bgcolor="#0f766e" style="padding: 28px 40px; background-color: #0f766e; border-radius: 16px 16px 0 0;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                  <tr>
+                    <td style="font-size: 22px; line-height: 30px; font-weight: 700; color: #ffffff;">
+                      <%= emailBrand %>
+                    </td>
+                    <td align="right" style="font-size: 12px; line-height: 18px; letter-spacing: 1px; font-weight: 700; color: #ccfbf1;">
+                      INVOICE
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" style="padding-top: 4px; font-size: 12px; line-height: 18px; letter-spacing: 1px; color: #ccfbf1;">
+                      APPOINTMENT PAYMENT
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="content-padding" style="padding: 40px;">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
+                  <tr>
+                    <td style="padding: 6px 14px; border-radius: 999px; background-color: #dcfce7; font-size: 12px; line-height: 18px; font-weight: 700; letter-spacing: 1px; color: #166534;">
+                      &#10003;&nbsp; PAID &amp; CONFIRMED
+                    </td>
+                  </tr>
+                </table>
+
+                <h1 class="email-title" style="margin: 0 0 20px; font-size: 30px; line-height: 38px; font-weight: 700; letter-spacing: -0.5px; color: #0f172a;">
+                  Your appointment is confirmed
+                </h1>
+                <p style="margin: 0 0 12px; font-size: 16px; line-height: 26px; color: #334155;">
+                  <% if (recipientName) { %>Hi <%= recipientName %>,<% } else { %>Hello,<% } %>
+                </p>
+                <p style="margin: 0 0 28px; font-size: 16px; line-height: 26px; color: #475569;">
+                  Thank you for your payment. Your appointment has been booked successfully. Please keep this email as your invoice and payment receipt.
+                </p>
+
+                <!-- Amount paid -->
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width: 100%; border: 1px solid #99f6e4; border-spacing: 0; border-radius: 12px; background-color: #f0fdfa;">
+                  <tr>
+                    <td align="center" style="padding: 22px 12px 4px; font-size: 11px; line-height: 18px; font-weight: 700; letter-spacing: 1.5px; color: #0f766e;">
+                      AMOUNT PAID
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="amount" align="center" style="padding: 0 12px 22px; font-size: 36px; line-height: 46px; font-weight: 700; color: #134e4a;">
+                      <%= amount %> <span style="font-size: 18px; font-weight: 700; color: #0f766e;"><%= paymentCurrency %></span>
+                    </td>
+                  </tr>
+                </table>
+
+                <!-- Appointment details -->
+                <p style="margin: 32px 0 12px; font-size: 11px; line-height: 18px; font-weight: 700; letter-spacing: 1.5px; color: #64748b;">
+                  APPOINTMENT DETAILS
+                </p>
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width: 100%; border: 1px solid #e2e8f0; border-collapse: separate; border-spacing: 0; border-radius: 12px;">
+                  <tr>
+                    <td style="padding: 14px 20px; border-bottom: 1px solid #e2e8f0; font-size: 14px; line-height: 22px; color: #64748b;">Doctor</td>
+                    <td align="right" style="padding: 14px 20px; border-bottom: 1px solid #e2e8f0; font-size: 14px; line-height: 22px; font-weight: 700; color: #0f172a;">
+                      Dr. <%= doctorName %>
+                      <% if (doctorSpecialization) { %><br /><span style="font-weight: 400; color: #64748b;"><%= doctorSpecialization %></span><% } %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 14px 20px; border-bottom: 1px solid #e2e8f0; font-size: 14px; line-height: 22px; color: #64748b;">Date</td>
+                    <td align="right" style="padding: 14px 20px; border-bottom: 1px solid #e2e8f0; font-size: 14px; line-height: 22px; font-weight: 700; color: #0f172a;"><%= appointmentDate %></td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 14px 20px; border-bottom: 1px solid #e2e8f0; font-size: 14px; line-height: 22px; color: #64748b;">Joining time</td>
+                    <td align="right" style="padding: 14px 20px; border-bottom: 1px solid #e2e8f0; font-size: 14px; line-height: 22px; font-weight: 700; color: #0f172a;"><%= joiningTime %></td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 14px 20px; font-size: 14px; line-height: 22px; color: #64748b;">Serial number</td>
+                    <td align="right" style="padding: 14px 20px; font-size: 14px; line-height: 22px; font-weight: 700; color: #0f172a;">#<%= serialNumber %></td>
+                  </tr>
+                </table>
+
+                <% if (link) { %>
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin: 28px auto 0;">
+                  <tr>
+                    <td align="center" bgcolor="#0f766e" style="border-radius: 10px; background-color: #0f766e;">
+                      <a href="<%= link %>" target="_blank" style="display: inline-block; padding: 14px 32px; font-size: 15px; line-height: 20px; font-weight: 700; color: #ffffff; text-decoration: none; border-radius: 10px;">
+                        Join consultation
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+                <p style="margin: 12px 0 0; text-align: center; font-size: 13px; line-height: 21px; color: #64748b;">
+                  Please join a few minutes before your joining time.
+                </p>
+                <% } %>
+
+                <!-- Payment details -->
+                <p style="margin: 32px 0 12px; font-size: 11px; line-height: 18px; font-weight: 700; letter-spacing: 1.5px; color: #64748b;">
+                  PAYMENT DETAILS
+                </p>
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width: 100%; border: 1px solid #e2e8f0; border-collapse: separate; border-spacing: 0; border-radius: 12px;">
+                  <tr>
+                    <td style="padding: 14px 20px; border-bottom: 1px solid #e2e8f0; font-size: 14px; line-height: 22px; color: #64748b;">Invoice number</td>
+                    <td align="right" style="padding: 14px 20px; border-bottom: 1px solid #e2e8f0; font-family: 'Courier New', Courier, monospace; font-size: 13px; line-height: 22px; font-weight: 700; color: #0f172a; word-break: break-all;"><%= invoiceNumber %></td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 14px 20px; border-bottom: 1px solid #e2e8f0; font-size: 14px; line-height: 22px; color: #64748b;">Payment method</td>
+                    <td align="right" style="padding: 14px 20px; border-bottom: 1px solid #e2e8f0; font-size: 14px; line-height: 22px; font-weight: 700; color: #0f172a;">bKash</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 14px 20px; border-bottom: 1px solid #e2e8f0; font-size: 14px; line-height: 22px; color: #64748b;">Transaction ID</td>
+                    <td align="right" style="padding: 14px 20px; border-bottom: 1px solid #e2e8f0; font-family: 'Courier New', Courier, monospace; font-size: 13px; line-height: 22px; font-weight: 700; color: #0f172a; word-break: break-all;"><%= trxId %></td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 14px 20px; <% if (paymentTime) { %>border-bottom: 1px solid #e2e8f0; <% } %>font-size: 14px; line-height: 22px; color: #64748b;">Payment ID</td>
+                    <td align="right" style="padding: 14px 20px; <% if (paymentTime) { %>border-bottom: 1px solid #e2e8f0; <% } %>font-family: 'Courier New', Courier, monospace; font-size: 13px; line-height: 22px; font-weight: 700; color: #0f172a; word-break: break-all;"><%= paymentId %></td>
+                  </tr>
+                  <% if (paymentTime) { %>
+                  <tr>
+                    <td style="padding: 14px 20px; font-size: 14px; line-height: 22px; color: #64748b;">Paid at</td>
+                    <td align="right" style="padding: 14px 20px; font-size: 14px; line-height: 22px; font-weight: 700; color: #0f172a;"><%= paymentTime %></td>
+                  </tr>
+                  <% } %>
+                </table>
+
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-top: 28px; border-top: 1px solid #e2e8f0;">
+                  <tr>
+                    <td style="padding-top: 24px; font-size: 14px; line-height: 23px; color: #64748b;">
+                      <strong style="color: #334155;">Need to cancel?</strong><br />
+                      You can cancel your appointment from your dashboard before it starts, and your payment will be refunded to your bKash account.
+                    </td>
+                  </tr>
+                </table>
+
+                <p style="margin: 28px 0 0; font-size: 14px; line-height: 23px; color: #334155;">
+                  Regards,<br />
+                  <strong>The <%= emailBrand %> Team</strong>
+                </p>
+              </td>
+            </tr>
+          </table>
+          <!--[if mso]></td></tr></table><![endif]-->
+
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width: 100%; max-width: 600px;">
+            <tr>
+              <td align="center" style="padding: 24px 12px 0; font-size: 12px; line-height: 20px; color: #64748b;">
+                This is an automated payment receipt. No signature is required.<br />
+                &copy; <%= new Date().getFullYear() %> <%= emailBrand %>. All rights reserved.
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
