@@ -11,7 +11,7 @@ model Doctor {
   experienceYears Int
 
   resume          String?
-  resumePublicId String?
+  resumePublicId  String?
   additionalFiles Json? // array of file URLs or file metadata // stores : [{url : "....", publicId : "...."}, {url : "....", publicId : "...."}]
 
   isDeleted Boolean   @default(false)
@@ -30,8 +30,10 @@ model Doctor {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  userId String @unique
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId       String        @unique
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  schedules    Schedule[]
+  appointments Appointment[]
 
   @@index([email], name: "idx_doctor_email")
   @@map("doctors")
