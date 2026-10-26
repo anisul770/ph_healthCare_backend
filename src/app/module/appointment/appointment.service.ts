@@ -527,6 +527,9 @@ const bookAppointmentCallback = async(query: Record<string,any>) => {
                 redirectUrl : `${config.frontend_url}/dashboard/my-appointments?error=payment-failed`
             }
         }
+    },{
+        maxWait : 10000,
+        timeout : 30000
     });
     return transactionResult;
 }

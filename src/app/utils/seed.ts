@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { Role } from "../../generated/prisma/enums";
+import { DoctorVerificationStatus, Role } from "../../generated/prisma/enums";
 import config from "../config";
 import { prisma } from "../lib/prisma";
 import httpStatus from "http-status";
@@ -129,7 +129,7 @@ export const seedTesterDoctor = async () => {
 
         const name = config.tester_doctor_name
         const email = config.tester_doctor_email
-        const password = config.tester_admin_password
+        const password = config.tester_doctor_password
 
         if (!name || !email || !password) {
             throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, "Tester Doctor Name , Email, Password Missing In Env File!!!")
@@ -152,7 +152,8 @@ export const seedTesterDoctor = async () => {
                         experienceYears : 5,
                         licenseNumber : "BMC0000",
                         qualifications : "MBBS",
-                        specialization : "Neurology"
+                        specialization : "Neurology",
+                        verificationStatus : DoctorVerificationStatus.APPROVED
                     }
                 }
             }

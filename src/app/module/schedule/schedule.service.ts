@@ -1,12 +1,12 @@
 import { addDays, differenceInMinutes, isAfter, isSameDay, startOfDay } from "date-fns"
+import httpStatus  from "http-status"
+import { DoctorVerificationStatus, ScheduleStatus } from "../../../generated/prisma/enums"
+import { ScheduleWhereInput } from "../../../generated/prisma/models"
+import { IQuery } from "../../interfaces"
 import { prisma } from "../../lib/prisma"
 import { RequestUser } from "../../middleware/checkAuth"
 import { AppError } from "../../utils/AppError"
 import { ICreateSchedulePayload, IUpdateSchedulePayload } from "./schedule.interface"
-import httpStatus  from "http-status"
-import { IQuery } from "../../interfaces"
-import { ScheduleWhereInput } from "../../../generated/prisma/models"
-import { ScheduleStatus } from "../../../generated/prisma/enums"
 
 const createSchedule = async(payload : ICreateSchedulePayload,user: RequestUser) => {
     const doctor = await prisma.doctor.findUnique({
@@ -43,13 +43,21 @@ const createSchedule = async(payload : ICreateSchedulePayload,user: RequestUser)
     }
 
     const durationInMinutes = differenceInMinutes(
-        payload.startDateTime,
-        payload.endDateTime
+        payload.endDateTime,
+        payload.startDateTime
     );
 
     const MINUTES_ALLOCATED_PER_SLOT = 20
 
     const totalSlot = Math.floor(durationInMinutes/MINUTES_ALLOCATED_PER_SLOT);
+
+    if (totalSlot < 1) {
+        throw new AppError(
+            httpStatus.CONFLICT,
+            `Schedule Must Be At Least ${MINUTES_ALLOCATED_PER_SLOT} Minutes Long To Fit One Slot`,
+        );
+    }
+
 
     const schedule = await prisma.schedule.create({
         data : {
@@ -72,7 +80,7 @@ const createSchedule = async(payload : ICreateSchedulePayload,user: RequestUser)
     });
     return schedule
 
-}
+};
 
 const getMySchedules = async(query: IQuery, user: RequestUser) => {
     const limit = query.limit ? Number(query.limit) : 10;
@@ -147,7 +155,7 @@ const getMySchedules = async(query: IQuery, user: RequestUser) => {
             totalPages : Math.ceil(total/limit),
         }
     }
-}
+};
 
 const getAllSchedules = async(query : IQuery) => {
     const limit = query.limit ? Number(query.limit) : 10;
@@ -241,7 +249,7 @@ const getScheduleById = async(scheduleId : string) => {
     }
 
     return schedule
-}
+};
 
 const updateSchedule = async(scheduleId : string, payload : IUpdateSchedulePayload,user: RequestUser) => {
     const doctor = await prisma.doctor.findUnique({
@@ -298,8 +306,8 @@ const updateSchedule = async(scheduleId : string, payload : IUpdateSchedulePaylo
     }
     
     const durationInMinutes = differenceInMinutes(
+        payload.endDateTime,
         payload.startDateTime,
-        payload.endDateTime
     );
 
     const MINUTES_ALLOCATED_PER_SLOT = 20
@@ -331,7 +339,7 @@ const updateSchedule = async(scheduleId : string, payload : IUpdateSchedulePaylo
 
     return updatedSchedule
 
-}
+};
 
 const publishSchedule = async(scheduleId:string,user:RequestUser) => {
     const doctor = await prisma.doctor.findUnique({
@@ -363,7 +371,7 @@ const publishSchedule = async(scheduleId:string,user:RequestUser) => {
     })
 
     return publishSchedule;
-}
+};
 
 const deleteSchedule = async(scheduleId:string,user:RequestUser) => {
     const doctor = await prisma.doctor.findUnique({
@@ -386,7 +394,7 @@ const deleteSchedule = async(scheduleId:string,user:RequestUser) => {
     };
 
     return deleteSchedule;
-}
+};
 
 const getTodaysSchedule = async(query: IQuery) => {
     if(!query.doctorId){
@@ -413,6 +421,11 @@ const getTodaysSchedule = async(query: IQuery) => {
     const andConditions : ScheduleWhereInput[] = [
         {
             doctorId : query.doctorId
+        },
+        {
+            doctor : {
+                verificationStatus : DoctorVerificationStatus.APPROVED
+            }
         },
         {
             isDeleted : false
@@ -458,7 +471,7 @@ const getTodaysSchedule = async(query: IQuery) => {
         }
     }
 
-}
+};
 
 export const ScheduleServices = {
     createSchedule,
