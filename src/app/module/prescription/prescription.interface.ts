@@ -2,7 +2,7 @@ export interface IMedicine {
     name: string,
     dosage : string,
     duration : string,
-    instruction? : string
+    instructions? : string
 }
 
 export interface ICreatePrescriptionPayload {

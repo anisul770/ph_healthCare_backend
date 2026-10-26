@@ -32,6 +32,6 @@ export const deleteUnverifiedDoctors = async()=> {
         } catch (error) {
             console.log("Cron failed delete unverified doctor application", error);   
         }
-        console.log("Dcotor delete cron schedule (every 10 m inutes)");
+        console.log("Dcotor delete cron schedule (every 10 minutes)");
     });
 }

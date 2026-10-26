@@ -180,7 +180,7 @@ const createPrescription = async(payload:ICreatePrescriptionPayload,user:Request
             medicine.name,
             medicine.dosage,
             medicine.duration,
-            medicine.instruction || "-",
+            medicine.instructions || "-",
         ];
 
         const rowHeight = Math.max(
